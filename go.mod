@@ -1,6 +1,6 @@
 module github-mq-to-post-relay
 
-go 1.21.13
+go 1.20
 
 require (
 	github.com/joho/godotenv v1.5.1
