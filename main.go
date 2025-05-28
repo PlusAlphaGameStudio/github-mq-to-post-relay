@@ -161,7 +161,9 @@ func postToUrl(jsonPayload []byte) {
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		log.Println(fmt.Errorf("do request: %w", err))
+		return
 	}
+
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
@@ -172,12 +174,15 @@ func postToUrl(jsonPayload []byte) {
 	// 4. Quick status-code check
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		log.Println(fmt.Errorf("received non-2xx status: %s", resp.Status))
+		return
 	}
 
 	// 5. Read and print body (discard or parse as needed)
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Println(fmt.Errorf("read body: %w", err))
+		return
 	}
+
 	fmt.Printf("Server replied (%s):\n%s\n", resp.Status, body)
 }
